@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 public class MessageController {
 
-    @GetMapping("/")
+    @GetMapping("/messages")
     public ResponseEntity<List<String>> messages(){
         return ResponseEntity.ok(Arrays.asList("first","second"));
     }
