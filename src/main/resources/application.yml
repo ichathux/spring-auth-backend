@@ -1,0 +1,19 @@
+server:
+  port : 8081
+# Spring Boot configuration
+spring:
+  # Database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/auth_example
+    username: postgres
+    password: AlfaTeck@123
+  # JPA properties
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
+    open-in-view: false
+    generate-ddl: true
