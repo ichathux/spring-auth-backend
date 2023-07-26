@@ -1,5 +1,6 @@
 package auth.example.demo.controllers;
 
+import auth.example.demo.config.UserAuthProvider;
 import auth.example.demo.dto.CredentialDto;
 import auth.example.demo.dto.SignUpDto;
 import auth.example.demo.dto.UserDto;
@@ -20,16 +21,19 @@ import java.net.URI;
 public class AuthController {
 
     private final UserService userService;
+    private final UserAuthProvider userAuthProvider;
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody CredentialDto credentialDto){
-        log.info("get user request for login");
-        UserDto user = userService.login(credentialDto);
-        return ResponseEntity.ok(user);
+        UserDto userDto = userService.login(credentialDto);
+        userDto.setToken(userAuthProvider.createToken(userDto));
+        return ResponseEntity.ok(userDto);
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody SignUpDto signUpDto){
-        UserDto user = userService.register(signUpDto);
-        return ResponseEntity.created(URI.create("/users/"+user.getId())).body(user);
+        UserDto createdUser = userService.register(signUpDto);
+        createdUser.setToken(userAuthProvider.createToken(createdUser));
+        return ResponseEntity.created(URI.create("/users/" + createdUser.getId())).body(createdUser);
+
     }
 }
